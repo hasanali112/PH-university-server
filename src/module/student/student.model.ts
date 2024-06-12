@@ -8,8 +8,6 @@ import {
   StudentModel,
 } from './student.interface'
 import validator from 'validator'
-import bcrypt from 'bcrypt'
-import config from '../../config'
 
 const userSchema = new Schema<TName>({
   firstName: {
@@ -54,7 +52,12 @@ const localGurdianSchema = new Schema<TLocalGurdain>({
 const studentSchema = new Schema<TStudent, StudentModel>(
   {
     id: { type: String, required: true, unique: true },
-    password: { type: String, required: true },
+    user: {
+      type: Schema.Types.ObjectId,
+      required: [true, 'User id is required'],
+      unique: true,
+      ref: 'UserModel',
+    },
     name: { type: userSchema, required: [true, 'Name is required'] },
     gender: { type: String, enum: ['male', 'female', 'other'], required: true },
     dateOfBirth: { type: String },
@@ -70,7 +73,6 @@ const studentSchema = new Schema<TStudent, StudentModel>(
     gurdian: { type: gurdianSchema, required: true },
     localGurdian: { type: localGurdianSchema, required: true },
     profileImg: { type: String },
-    isActive: { type: String, enum: ['active', 'blocked'], default: 'active' },
   },
   {
     toJSON: {
@@ -82,21 +84,6 @@ const studentSchema = new Schema<TStudent, StudentModel>(
 //virtual
 studentSchema.virtual('fullName').get(function () {
   return this.name.firstName + this.name.middleName + this.name.lastName
-})
-
-//pre save middleware
-studentSchema.pre('save', async function (next) {
-  const user = this
-  user.password = await bcrypt.hash(
-    user.password,
-    Number(config.bcrypt_salt_round),
-  )
-  next()
-})
-
-studentSchema.post('save', function (doc, next) {
-  doc.password = ''
-  next()
 })
 
 //creating a customes static methods

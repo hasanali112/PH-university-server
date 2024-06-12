@@ -1,4 +1,4 @@
-import { Model } from 'mongoose'
+import { Model, Types } from 'mongoose'
 
 /* eslint-disable no-unused-vars */
 export type TGurdian = {
@@ -25,7 +25,7 @@ export type TLocalGurdain = {
 
 export type TStudent = {
   id: string
-  password: string
+  user: Types.ObjectId
   name: TName
   gender: 'male' | 'female' | 'other'
   dateOfBirth?: string
