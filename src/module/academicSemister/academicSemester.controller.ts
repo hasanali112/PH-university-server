@@ -1,15 +1,16 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { userService } from './user.service'
+
 import handleResponse from '../../utility/sendResponse'
 import httpStatus from 'http-status'
 import catchAsync from '../../utility/catchAsyc'
+import { academicSemesterService } from './academicSemester.service'
 
-const createStudent = catchAsync(async (req, res) => {
-  const { password, student: studentData } = req.body
-  //   const zodParseData = studentValidationSchema.parse(studentData)
-  const result = await userService.createStudentIntoDB(password, studentData)
+const createAcademicSemister = catchAsync(async (req, res) => {
+  const result = await academicSemesterService.createAcademicSemesterIntoDB(
+    req.body,
+  )
   handleResponse(res, {
     statusCode: httpStatus.OK,
     success: true,
@@ -18,6 +19,6 @@ const createStudent = catchAsync(async (req, res) => {
   })
 })
 
-export const userController = {
-  createStudent,
+export const academicSemisterController = {
+  createAcademicSemister,
 }

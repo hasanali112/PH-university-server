@@ -10,11 +10,12 @@ const globalErrorhandler = (
   next: NextFunction,
 ) => {
   const statusCode = 500
-  const massage = error.massage || 'Something went wrong'
+  const massage = error.message || 'Something went wrong'
 
   res.status(statusCode).json({
     success: false,
     massage,
+    error,
   })
 }
 

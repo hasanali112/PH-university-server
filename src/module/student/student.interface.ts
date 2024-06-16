@@ -28,7 +28,7 @@ export type TStudent = {
   user: Types.ObjectId
   name: TName
   gender: 'male' | 'female' | 'other'
-  dateOfBirth?: string
+  dateOfBirth?: Date
   email: string
   contactNo: string
   emergencyContactNo: string
@@ -37,6 +37,7 @@ export type TStudent = {
   paramanentAddress: string
   gurdian: TGurdian
   localGurdian: TLocalGurdain
+  admissionSemester: Types.ObjectId
   profileImg?: string
 }
 

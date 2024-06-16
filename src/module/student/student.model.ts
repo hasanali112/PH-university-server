@@ -72,6 +72,10 @@ const studentSchema = new Schema<TStudent, StudentModel>(
     paramanentAddress: { type: String, required: true },
     gurdian: { type: gurdianSchema, required: true },
     localGurdian: { type: localGurdianSchema, required: true },
+    admissionSemester: {
+      type: Schema.Types.ObjectId,
+      ref: 'SemesterModel',
+    },
     profileImg: { type: String },
   },
   {
