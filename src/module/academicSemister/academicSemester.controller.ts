@@ -35,7 +35,7 @@ const getSingleAcademicSemister = catchAsync(async (req, res) => {
   handleResponse(res, {
     statusCode: httpStatus.OK,
     success: true,
-    message: 'All semester retrive successfully',
+    message: 'Semester retrive successfully',
     data: result,
   })
 })
