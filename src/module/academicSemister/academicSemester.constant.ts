@@ -20,8 +20,8 @@ export const Months: TMonths[] = [
 ]
 
 export const AcademicSemisterName: TAcademicSemesterName[] = [
-  'Summar',
-  'Autum',
+  'Summer',
+  'Autumn',
   'Fall',
 ]
 

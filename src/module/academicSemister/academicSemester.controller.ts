@@ -14,11 +14,47 @@ const createAcademicSemister = catchAsync(async (req, res) => {
   handleResponse(res, {
     statusCode: httpStatus.OK,
     success: true,
-    message: 'Student create successfully',
+    message: 'Semester create successfully',
+    data: result,
+  })
+})
+
+const getAcademicSemisters = catchAsync(async (req, res) => {
+  const result = await academicSemesterService.getAllSemester()
+  handleResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: 'All semester retrive successfully',
+    data: result,
+  })
+})
+
+const getSingleAcademicSemister = catchAsync(async (req, res) => {
+  const id = req.params.semesterId
+  const result = await academicSemesterService.getSingleSemester(id)
+  handleResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: 'All semester retrive successfully',
+    data: result,
+  })
+})
+
+const updateSemester = catchAsync(async (req, res) => {
+  const id = req.params.semesterId
+  const semesterData = req.body
+  const result = await academicSemesterService.upadateSemester(id, semesterData)
+  handleResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: 'Semester update successfully',
     data: result,
   })
 })
 
 export const academicSemisterController = {
   createAcademicSemister,
+  getAcademicSemisters,
+  getSingleAcademicSemister,
+  updateSemester,
 }
