@@ -26,7 +26,7 @@ const getAcademicDepertment = catchAsync(async (req, res) => {
 })
 
 const getSingleAcademicDepertment = catchAsync(async (req, res) => {
-  const id = req.params.depertmentyId
+  const id = req.params.depertmentId
   const result = await academicDepertmentService.getSingleDepertment(id)
   handleResponse(res, {
     statusCode: httpStatus.OK,
@@ -37,7 +37,7 @@ const getSingleAcademicDepertment = catchAsync(async (req, res) => {
 })
 
 const updateDepertment = catchAsync(async (req, res) => {
-  const id = req.params.facultyId
+  const id = req.params.depertmentId
   const depertmentData = req.body
   const result = await academicDepertmentService.upadateDepertment(
     id,

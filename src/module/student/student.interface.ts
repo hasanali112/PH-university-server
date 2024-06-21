@@ -38,6 +38,7 @@ export type TStudent = {
   gurdian: TGurdian
   localGurdian: TLocalGurdain
   admissionSemester: Types.ObjectId
+  academicDepertment: Types.ObjectId
   profileImg?: string
 }
 

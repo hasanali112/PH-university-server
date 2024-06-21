@@ -1,21 +1,21 @@
 import { TAcademicFaculty } from './academicFaculty.interfaces'
-import { FacultyModel } from './academicFaculty.model'
+import { AcademicFaculty } from './academicFaculty.model'
 
 //create semester
 const createAcademicFacultyIntoDB = async (payload: TAcademicFaculty) => {
-  const result = await FacultyModel.create(payload)
+  const result = await AcademicFaculty.create(payload)
   return result
 }
 
 //get all semester
 const getAllFaculty = async () => {
-  const result = await FacultyModel.find()
+  const result = await AcademicFaculty.find()
   return result
 }
 
 //get single semester
 const getSingleFaculty = async (_id: string) => {
-  const result = await FacultyModel.findById(_id)
+  const result = await AcademicFaculty.findById(_id)
   return result
 }
 
@@ -24,7 +24,7 @@ const upadateFaculty = async (
   _id: string,
   payload: Partial<TAcademicFaculty>,
 ) => {
-  const result = await FacultyModel.findByIdAndUpdate(_id, payload, {
+  const result = await AcademicFaculty.findByIdAndUpdate(_id, payload, {
     new: true,
   })
 

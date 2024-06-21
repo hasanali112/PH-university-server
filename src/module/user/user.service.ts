@@ -1,9 +1,9 @@
 import config from '../../config'
-import { SemesterModel } from '../academicSemister/academicSemester.model'
+import { AcademicSemester } from '../academicSemister/academicSemester.model'
 import { TStudent } from '../student/student.interface'
 import { Student } from '../student/student.model'
 import { TUser } from './user.interface'
-import { UserModel } from './user.model'
+import { User } from './user.model'
 import { generatedId } from './user.utils'
 
 const createStudentIntoDB = async (password: string, payload: TStudent) => {
@@ -17,7 +17,7 @@ const createStudentIntoDB = async (password: string, payload: TStudent) => {
 
   //find semester by id
 
-  const admissionSemester = await SemesterModel.findById(
+  const admissionSemester = await AcademicSemester.findById(
     payload.admissionSemester,
   )
 
@@ -29,7 +29,7 @@ const createStudentIntoDB = async (password: string, payload: TStudent) => {
   userData.id = await generatedId(admissionSemester)
 
   //create a user
-  const newUser = await UserModel.create(userData)
+  const newUser = await User.create(userData)
 
   //create a student
   if (Object.keys(newUser).length) {

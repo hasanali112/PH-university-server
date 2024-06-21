@@ -56,7 +56,7 @@ const studentSchema = new Schema<TStudent, StudentModel>(
       type: Schema.Types.ObjectId,
       required: [true, 'User id is required'],
       unique: true,
-      ref: 'UserModel',
+      ref: 'User',
     },
     name: { type: userSchema, required: [true, 'Name is required'] },
     gender: { type: String, enum: ['male', 'female', 'other'], required: true },
@@ -74,7 +74,11 @@ const studentSchema = new Schema<TStudent, StudentModel>(
     localGurdian: { type: localGurdianSchema, required: true },
     admissionSemester: {
       type: Schema.Types.ObjectId,
-      ref: 'SemesterModel',
+      ref: 'AcademicSemester',
+    },
+    academicDepertment: {
+      type: Schema.Types.ObjectId,
+      ref: 'AcademicDepertment',
     },
     profileImg: { type: String },
   },
