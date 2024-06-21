@@ -1,6 +1,7 @@
 import { Schema, model } from 'mongoose'
 import { TAcademicDepertment } from './academicDepertment.interface'
-// import { AcademicFaculty } from '../academicFaculty/academicFaculty.model'
+import { AppError } from '../../utility/AppError'
+import httpStatus from 'http-status'
 
 const depertmentSchema = new Schema<TAcademicDepertment>(
   {
@@ -20,20 +21,6 @@ const depertmentSchema = new Schema<TAcademicDepertment>(
   },
 )
 
-class AppError extends Error {
-  public statusCode: number
-
-  constructor(statusCode: number, message: string, stack = '') {
-    super(message)
-    this.statusCode = statusCode
-    if (stack) {
-      this.stack = stack
-    } else {
-      Error.captureStackTrace(this, this.constructor)
-    }
-  }
-}
-
 depertmentSchema.pre('save', async function (next) {
   const isDepertmentExists = await AcademicDepertment.findOne({
     name: this.name,
@@ -50,7 +37,7 @@ depertmentSchema.pre('findOneAndUpdate', async function (next) {
   const query = this.getQuery()
   const isDepertmentIdExists = await AcademicDepertment.findOne(query)
   if (!isDepertmentIdExists) {
-    throw new Error('Depertment does not exists')
+    throw new AppError(httpStatus.NOT_FOUND, 'Depertment does not exists')
   }
 
   next()

@@ -81,6 +81,7 @@ const studentSchema = new Schema<TStudent, StudentModel>(
       ref: 'AcademicDepertment',
     },
     profileImg: { type: String },
+    isDeleted: { type: Boolean, default: false },
   },
   {
     toJSON: {
