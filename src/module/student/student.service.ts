@@ -1,8 +1,10 @@
+/* eslint-disable no-console */
 import mongoose from 'mongoose'
 import { Student } from './student.model'
-import { AppError } from '../../utility/AppError'
+import { AppError } from '../../errors/AppError'
 import httpStatus from 'http-status'
 import { User } from '../user/user.model'
+import { TStudent } from './student.interface'
 
 const getStudentFromDB = async () => {
   const result = await Student.find()
@@ -17,8 +19,41 @@ const getStudentFromDB = async () => {
   return result
 }
 
-const getStudentByIdFromDB = async (_id: string) => {
-  const result = await Student.findOne({ _id })
+const getStudentByIdFromDB = async (id: string) => {
+  const result = await Student.findOneAndUpdate({ id })
+  return result
+}
+
+const updateStudentField = async (id: string, payload: Partial<TStudent>) => {
+  const { name, gurdian, localGurdian, ...remainingStudentData } = payload
+
+  const modifiedUpdatedData: Record<string, unknown> = {
+    ...remainingStudentData,
+  }
+
+  if (name && Object.keys(name).length) {
+    for (const [key, value] of Object.entries(name)) {
+      modifiedUpdatedData[`name.${key}`] = value
+      console.log(modifiedUpdatedData)
+    }
+  }
+
+  if (gurdian && Object.keys(gurdian).length) {
+    for (const [key, value] of Object.entries(gurdian)) {
+      modifiedUpdatedData[`guardian.${key}`] = value
+    }
+  }
+
+  if (localGurdian && Object.keys(localGurdian).length) {
+    for (const [key, value] of Object.entries(localGurdian)) {
+      modifiedUpdatedData[`localGuardian.${key}`] = value
+    }
+  }
+
+  const result = await Student.findOneAndUpdate({ id }, modifiedUpdatedData, {
+    new: true,
+    runValidators: true,
+  })
   return result
 }
 
@@ -68,4 +103,5 @@ export const studentService = {
   getStudentFromDB,
   getStudentByIdFromDB,
   deleteStudent,
+  updateStudentField,
 }

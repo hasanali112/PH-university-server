@@ -1,6 +1,6 @@
 import httpStatus from 'http-status'
 import config from '../../config'
-import { AppError } from '../../utility/AppError'
+import { AppError } from '../../errors/AppError'
 import { AcademicSemester } from '../academicSemister/academicSemester.model'
 import { TStudent } from '../student/student.interface'
 import { Student } from '../student/student.model'

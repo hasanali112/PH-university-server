@@ -5,6 +5,7 @@ const router = express.Router()
 
 router.get('/get-student', studentController.getStudent)
 router.get('/:studentId', studentController.getStudentById)
-router.patch('/:studentId', studentController.deleteStudentById)
+router.delete('/:studentId', studentController.deleteStudentById)
+router.patch('/:studentId', studentController.updateStudentById)
 
 export const studentRoutes = router

@@ -1,6 +1,6 @@
 import { Schema, model } from 'mongoose'
 import { TAcademicDepertment } from './academicDepertment.interface'
-import { AppError } from '../../utility/AppError'
+import { AppError } from '../../errors/AppError'
 import httpStatus from 'http-status'
 
 const depertmentSchema = new Schema<TAcademicDepertment>(
