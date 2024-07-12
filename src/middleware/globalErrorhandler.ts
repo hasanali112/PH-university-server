@@ -6,6 +6,8 @@ import { ZodError, ZodIssue } from 'zod'
 import { TErrorSource } from '../interface/error'
 import config from '../config'
 import handleZodError from '../errors/zodErrorHander'
+import handleValidationError from '../errors/handleValidationError'
+import handleCastError from '../errors/handleCastError'
 
 const globalErrorhandler: ErrorRequestHandler = (error, req, res, next) => {
   let statusCode = 500
@@ -23,9 +25,20 @@ const globalErrorhandler: ErrorRequestHandler = (error, req, res, next) => {
     statusCode = simplifiedError.statusCode
     message = simplifiedError.message
     errorSource = simplifiedError.errorSource
+  } else if (error.name === 'ValidationError') {
+    const simplifiedError = handleValidationError(error)
+    statusCode = simplifiedError.statusCode
+    message = simplifiedError.message
+    errorSource = simplifiedError.errorSource
+  } else if (error.name === 'CastError') {
+    const simplifiedError = handleCastError(error)
+    statusCode = simplifiedError.statusCode
+    message = simplifiedError.message
+    errorSource = simplifiedError.errorSource
   }
 
   res.status(statusCode).json({
+    statusCode,
     success: false,
     message,
     errorSource,
