@@ -6,8 +6,29 @@ import httpStatus from 'http-status'
 import { User } from '../user/user.model'
 import { TStudent } from './student.interface'
 
-const getStudentFromDB = async () => {
-  const result = await Student.find()
+const getStudentFromDB = async (query: Record<string, unknown>) => {
+  const queryObj = { ...query }
+  const studentSearchableField = ['email', 'name.firstName', 'presentAddress']
+
+  let searchTerm = ''
+
+  if (query?.searchTerm) {
+    searchTerm = query?.searchTerm as string
+  }
+
+  const searchQuery = Student.find({
+    $or: studentSearchableField.map(field => ({
+      [field]: { $regex: searchTerm, $options: 'i' },
+    })),
+  })
+
+  //filter
+  const excludeField = ['searchTerm', 'sort', 'limit', 'page', 'fields']
+
+  excludeField.forEach(el => delete queryObj[el])
+
+  const filterQuery = searchQuery
+    .find(queryObj)
     .populate({ path: 'admissionSemester' })
     .populate({
       path: 'academicDepertment',
@@ -16,7 +37,40 @@ const getStudentFromDB = async () => {
       },
     })
 
-  return result
+  let sort = '-createdAt'
+
+  if (query?.sort) {
+    sort = query.sort as string
+  }
+
+  const sortedQuery = filterQuery.sort(sort)
+
+  let page = 1
+  let limit = 1
+  let skip = 1
+
+  if (query.limit) {
+    limit = Number(query.limit)
+  }
+
+  if (query.page) {
+    page = Number(query.page)
+    skip = (page - 1) * limit
+  }
+
+  const paginatedQuery = sortedQuery.skip(skip)
+
+  const limitQuery = paginatedQuery.limit(limit)
+
+  let fields = '_v'
+
+  if (query.field) {
+    fields = (query.field as string).split(',').join(' ')
+  }
+
+  const fieldLimit = await limitQuery.select(fields)
+
+  return fieldLimit
 }
 
 const getStudentByIdFromDB = async (id: string) => {

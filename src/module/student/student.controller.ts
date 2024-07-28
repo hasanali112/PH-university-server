@@ -3,7 +3,7 @@ import { studentService } from './student.service'
 import catchAsync from '../../utility/catchAsyc'
 
 const getStudent = catchAsync(async (req, res) => {
-  const result = await studentService.getStudentFromDB()
+  const result = await studentService.getStudentFromDB(req.query)
   res.status(200).json({
     success: true,
     message: 'Student retrived successfully',
