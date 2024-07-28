@@ -22,4 +22,10 @@ router.patch(
   courseController.updateCourse,
 )
 
+router.put('/:courseId/assign-faculties', courseController.assignFaculties)
+router.delete(
+  '/:courseId/remove-faculties',
+  courseController.removeFacultiesFromDB,
+)
+
 export const courseRoutes = router
